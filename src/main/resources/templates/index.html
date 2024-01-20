@@ -13,8 +13,15 @@
 <div id="menu">
     <a href="/main" class="button">Strona Główna</a>
     <a href="/contact" class="button">Kontakt</a>
+    <a href="/login" class="button" th:if="${session.user == null}">Zaloguj</a>
+    <a href="/logout" class="button" th:if="${session.user != null}">Wyloguj</a>
 </div>
 <div id="content">
+    <form action="/filter" method="get">
+        <input type="text" placeholder="Szukaj" class="input-field"
+               name="pattern" style="display: inline-block;" th:value="${session.filter}">
+        <input type="submit" value="OK" class="button">
+    </form>
     <div class="book" th:each="book : ${books}">
         <div th:text="${book.title}" class="title"></div>
         <div th:text="${book.author}" class="author"></div>
