@@ -6,27 +6,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import pl.comarch.camp.it.book.store.dao.IBookDAO;
-import pl.comarch.camp.it.book.store.model.Book;
-
-import java.util.List;
+import pl.comarch.camp.it.book.store.services.IBookService;
 
 @Controller
 public class CommonController {
+    private final IBookService bookService;
 
-    private final IBookDAO bookDAO;
-
-    public CommonController(IBookDAO bookDAO) {
-        this.bookDAO = bookDAO;
+    public CommonController(IBookService bookService) {
+        this.bookService = bookService;
     }
 
     @RequestMapping(path = {"/main", "/", "/index"}, method = RequestMethod.GET)
     public String main(Model model, HttpSession httpSession) {
         if(httpSession.getAttribute("filter") instanceof String) {
             String pattern = (String) httpSession.getAttribute("filter");
-            model.addAttribute("books", this.bookDAO.getByPattern(pattern));
+            model.addAttribute("books", this.bookService.getByPattern(pattern));
         } else {
-            model.addAttribute("books", this.bookDAO.getAll());
+            model.addAttribute("books", this.bookService.getAll());
         }
         return "index";
     }

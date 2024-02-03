@@ -1,15 +1,14 @@
-package pl.comarch.camp.it.book.store.dao;
+package pl.comarch.camp.it.book.store.services;
 
 import pl.comarch.camp.it.book.store.model.Book;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IBookDAO {
-    Optional<Book> getById(int id);
-    List<Book> getAll();
-    List<Book> getByPattern(String pattern);
+public interface IBookService {
     void save(Book book);
-    void update(Book book);
-    void delete(int id);
+    Optional<Book> getById(int id);
+    void update(int id, Book book);
+    List<Book> getByPattern(String pattern);
+    List<Book> getAll();
 }
