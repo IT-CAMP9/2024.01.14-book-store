@@ -1,7 +1,6 @@
 package pl.comarch.camp.it.book.store.validators;
 
 import pl.comarch.camp.it.book.store.exceptions.BookValidationException;
-import pl.comarch.camp.it.book.store.exceptions.UserValidationException;
 import pl.comarch.camp.it.book.store.model.Book;
 
 public class BookValidator {

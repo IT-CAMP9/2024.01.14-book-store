@@ -1,7 +1,6 @@
 package pl.comarch.camp.it.book.store.model;
 
 import lombok.*;
-import lombok.experimental.Accessors;
 
 @AllArgsConstructor
 @NoArgsConstructor

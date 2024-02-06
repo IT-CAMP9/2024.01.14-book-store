@@ -6,7 +6,6 @@ import pl.comarch.camp.it.book.store.exceptions.BookAlreadyExistException;
 import pl.comarch.camp.it.book.store.model.Book;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,70 +29,63 @@ public class BookRepository implements IBookDAO {
     }
 
     @Override
-    public Optional<Book> getById(int id) {
-        for(Book book : this.books) {
-            if(book.getId() == id) {
-                return Optional.of(book.clone());
-            }
-        }
-        return Optional.empty();
+    public Optional<Book> getById(final int id) {
+        return this.books.stream()
+                .filter(book -> book.getId() == id)
+                .map(Book::clone)
+                .findFirst();
     }
 
     @Override
     public List<Book> getAll() {
-        List<Book> result = new ArrayList<>();
-        for(Book book : this.books) {
-            result.add(book.clone());
-        }
-        return result;
+        return this.books.stream()
+                .map(Book::clone)
+                .toList();
     }
 
     @Override
-    public List<Book> getByPattern(String pattern) {
-        List<Book> result = new ArrayList<>();
-        for(Book book : this.books) {
-            if(book.getTitle().toLowerCase().contains(pattern.toLowerCase()) ||
-            book.getAuthor().toLowerCase().contains(pattern.toLowerCase())) {
-                result.add(book.clone());
-            }
-        }
-        return result;
+    public List<Book> getByPattern(final String pattern) {
+        return this.books.stream()
+                .filter(book -> matchToPattern(book, pattern))
+                .map(Book::clone)
+                .toList();
+    }
+
+    private boolean matchToPattern(Book book, String pattern) {
+        return book.getTitle().toLowerCase().contains(pattern.toLowerCase()) ||
+                book.getAuthor().toLowerCase().contains(pattern.toLowerCase());
     }
 
     @Override
-    public void save(Book book) {
+    public void save(final Book book) {
+        Optional<Book> bookFromDb = this.books.stream()
+                .filter(b -> b.getIsbn().equals(book.getIsbn()))
+                .findFirst();
+        if(bookFromDb.isPresent()) {
+            throw new BookAlreadyExistException(
+                    "Book with isbn: " + book.getIsbn() + " already exist");
+        }
         book.setId(bookIdSequence.getId());
-        for(Book bookFromDb : this.books) {
-            if(bookFromDb.getIsbn().equals(book.getIsbn())) {
-                throw new BookAlreadyExistException("Book with isbn: " + book.getIsbn() + " already exist");
-            }
-        }
         this.books.add(book);
     }
 
     @Override
-    public void update(Book book) {
-        for(Book bookFromDb : this.books) {
-            if(bookFromDb.getId() == book.getId()) {
-                bookFromDb.setTitle(book.getTitle());
-                bookFromDb.setAuthor(book.getAuthor());
-                bookFromDb.setIsbn(book.getIsbn());
-                bookFromDb.setPrice(book.getPrice());
-                bookFromDb.setQuantity(book.getQuantity());
-                return;
-            }
-        }
+    public void update(final Book book) {
+        this.books.stream()
+                .filter(b -> b.getId() == book.getId())
+                .forEach(b -> {
+                    b.setTitle(book.getTitle());
+                    b.setAuthor(book.getAuthor());
+                    b.setIsbn(book.getIsbn());
+                    b.setPrice(book.getPrice());
+                    b.setQuantity(book.getQuantity());
+                });
     }
 
     @Override
-    public void delete(int id) {
-        Iterator<Book> iterator = this.books.iterator();
-        while(iterator.hasNext()) {
-            Book book = iterator.next();
-            if(book.getId() == id) {
-                iterator.remove();
-                break;
-            }
-        }
+    public void delete(final int id) {
+        this.books.stream()
+                .filter(book -> book.getId() == id)
+                .forEach(this.books::remove);
     }
 }

@@ -43,7 +43,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
-    public String logout(HttpSession httpSession) {
+    public String logout() {
         this.authenticationService.logout();
         return "redirect:/main";
     }

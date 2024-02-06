@@ -6,7 +6,6 @@ import pl.comarch.camp.it.book.store.exceptions.UserAlreadyExistException;
 import pl.comarch.camp.it.book.store.model.User;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,68 +25,55 @@ public class UserRepository implements IUserDAO {
     }
 
     @Override
-    public Optional<User> getById(int id) {
-        for(User user : this.users) {
-            if(user.getId() == id) {
-                return Optional.of(user.clone());
-            }
-        }
-        return Optional.empty();
+    public Optional<User> getById(final int id) {
+        return this.users.stream()
+                .filter(user -> user.getId() == id)
+                .map(User::clone)
+                .findFirst();
     }
 
     @Override
-    public Optional<User> getByLogin(String login) {
-        for(User user : this.users) {
-            if(user.getLogin().equals(login)) {
-                return Optional.of(user.clone());
-            }
-        }
-        return Optional.empty();
+    public Optional<User> getByLogin(final String login) {
+        return this.users.stream()
+                .filter(user -> user.getLogin().equals(login))
+                .map(User::clone)
+                .findFirst();
     }
 
     @Override
     public List<User> getAll() {
-        List<User> result = new ArrayList<>();
-        for(User user : this.users) {
-            result.add(user.clone());
-        }
-        return result;
+        return this.users.stream()
+                .map(User::clone)
+                .toList();
     }
 
     @Override
     public void save(User user) {
+        if(this.getByLogin(user.getLogin()).isPresent()) {
+            throw new UserAlreadyExistException(
+                    "User with login: " + user.getLogin() + " already exist");
+        }
         user.setId(this.userIdSequence.getId());
-        Optional<User> userBox = this.getByLogin(user.getLogin());
-        if(userBox.isEmpty()) {
-            this.users.add(user);
-        } else {
-            throw new UserAlreadyExistException("User with login: " + user.getLogin() + " already exist");
-        }
+        this.users.add(user);
     }
 
     @Override
-    public void delete(int id) {
-        Iterator<User> iterator = this.users.iterator();
-        while(iterator.hasNext()) {
-            User user = iterator.next();
-            if(user.getId() == id) {
-                iterator.remove();
-                break;
-            }
-        }
+    public void delete(final int id) {
+        this.users.stream()
+                .filter(user -> user.getId() == id)
+                .forEach(this.users::remove);
     }
 
     @Override
-    public void update(User user) {
-        Optional<User> userBox = this.getById(user.getId());
-        if(userBox.isEmpty()) {
-            return;
-        }
-        User userFromDb = userBox.get();
-        userFromDb.setName(user.getName());
-        userFromDb.setSurname(user.getSurname());
-        userFromDb.setLogin(user.getLogin());
-        userFromDb.setPassword(user.getPassword());
-        userFromDb.setRole(user.getRole());
+    public void update(final User user) {
+        this.users.stream()
+                .filter(u -> u.getId() == user.getId())
+                .forEach(u -> {
+                    u.setName(user.getName());
+                    u.setSurname(user.getSurname());
+                    u.setLogin(user.getLogin());
+                    u.setPassword(user.getPassword());
+                    u.setRole(user.getRole());
+                });
     }
 }
