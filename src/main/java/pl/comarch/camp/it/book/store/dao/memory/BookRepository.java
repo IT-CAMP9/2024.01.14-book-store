@@ -61,6 +61,7 @@ public class BookRepository implements IBookDAO {
         Optional<Book> bookFromDb = this.books.stream()
                 .filter(b -> b.getIsbn().equals(book.getIsbn()))
                 .findFirst();
+
         if(bookFromDb.isPresent()) {
             throw new BookAlreadyExistException(
                     "Book with isbn: " + book.getIsbn() + " already exist");

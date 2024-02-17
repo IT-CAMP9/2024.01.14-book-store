@@ -9,8 +9,6 @@ import pl.comarch.camp.it.book.store.model.User;
 import pl.comarch.camp.it.book.store.model.dto.RegisterUserDTO;
 import pl.comarch.camp.it.book.store.services.IAuthenticationService;
 
-import java.util.Optional;
-
 @Service
 public class AuthenticationService implements IAuthenticationService {
 
@@ -24,11 +22,12 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public void login(String login, String password) {
-        Optional<User> userBox = this.userDAO.getByLogin(login);
-        if(userBox.isPresent() && userBox.get().getPassword().equals(DigestUtils.md5Hex(password))) {
-            userBox.get().setPassword(null);
-            httpSession.setAttribute("user", userBox.get());
-        }
+        this.userDAO.getByLogin(login).ifPresent(user -> {
+            if(user.getPassword().equals(DigestUtils.md5Hex(password))) {
+                user.setPassword(null);
+                httpSession.setAttribute("user", user);
+            }
+        });
     }
 
     @Override
