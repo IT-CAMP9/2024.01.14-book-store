@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,11 +16,16 @@ import java.util.Set;
 @Setter
 public class Order implements Cloneable {
     private int id;
-    //data
+    private LocalDateTime date;
     private Status status;
     private double total;
     private User user;
     private final Set<Position> positions = new HashSet<>();
+
+    public String getFormattedDate() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        return this.date.format(dateTimeFormatter);
+    }
 
     public enum Status {
         NEW,

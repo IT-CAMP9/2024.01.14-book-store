@@ -18,7 +18,7 @@
     </div>
     <div class="order" th:each="order : ${orders}" th:onclick="'javascript:dropDown(' + ${order.id} + ')'">
         <div th:text="${order.id}" class="id"></div>
-        <div class="date">null</div>
+        <div th:text="${order.getFormattedDate()}" class="date"></div>
         <div th:text="${order.status}" class="status">status</div>
         <div th:text="${order.total}" class="total">kwota</div>
         <div class="positions" th:id="positions + ${order.id}">

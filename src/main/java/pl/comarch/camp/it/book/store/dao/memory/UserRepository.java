@@ -14,9 +14,9 @@ public class UserRepository implements IUserDAO {
 
     private final List<User> users = new ArrayList<>();
 
-    private final UserIdSequence userIdSequence;
+    private final IdSequence userIdSequence;
 
-    public UserRepository(UserIdSequence userIdSequence) {
+    public UserRepository(IdSequence userIdSequence) {
         this.users.add(new User(userIdSequence.getId(), "admin", "0192023a7bbd73250516f069df18b500",
                 "Pan", "Administrator", User.Role.ADMIN));
         this.users.add(new User(userIdSequence.getId(), "janusz", "1e6f2ac43951a6721d3d26a379cc7f8b",

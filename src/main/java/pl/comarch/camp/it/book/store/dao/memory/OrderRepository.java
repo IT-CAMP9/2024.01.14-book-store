@@ -13,9 +13,9 @@ public class OrderRepository implements IOrderDAO {
 
     private final List<Order> orders = new ArrayList<>();
 
-    private final OrderIdSequence orderIdSequence;
+    private final IdSequence orderIdSequence;
 
-    public OrderRepository(OrderIdSequence orderIdSequence) {
+    public OrderRepository(IdSequence orderIdSequence) {
         this.orderIdSequence = orderIdSequence;
     }
 
