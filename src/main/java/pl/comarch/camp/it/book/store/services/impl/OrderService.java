@@ -67,7 +67,6 @@ public class OrderService implements IOrderService {
         this.orderDAO.save(order);
 
         user.getCart().clear();
-        this.userDAO.update(user);
     }
 
     @Override
