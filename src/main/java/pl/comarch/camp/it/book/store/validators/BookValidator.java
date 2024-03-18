@@ -42,7 +42,7 @@ public class BookValidator {
         validateTitle(book.getTitle());
         validateAuthor(book.getAuthor());
         validateISBN(book.getIsbn());
-        validatePrice(book.getPrice());
+        validatePrice(book.getPrice().doubleValue());
         validateQuantity(book.getQuantity());
     }
 }

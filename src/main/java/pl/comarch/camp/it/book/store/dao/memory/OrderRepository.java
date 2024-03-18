@@ -1,6 +1,5 @@
 package pl.comarch.camp.it.book.store.dao.memory;
 
-import org.springframework.stereotype.Repository;
 import pl.comarch.camp.it.book.store.dao.IOrderDAO;
 import pl.comarch.camp.it.book.store.model.Order;
 

@@ -1,10 +1,8 @@
 package pl.comarch.camp.it.book.store.dao.jdbc;
 
-import org.springframework.stereotype.Repository;
 import pl.comarch.camp.it.book.store.dao.IBookDAO;
 import pl.comarch.camp.it.book.store.dao.IPositionDAO;
 import pl.comarch.camp.it.book.store.model.Position;
-import pl.comarch.camp.it.book.store.model.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
 public class PositionDAO implements IPositionDAO {
 
     private final Connection connection;

@@ -1,17 +1,14 @@
 package pl.comarch.camp.it.book.store.dao.jdbc;
 
-import org.springframework.stereotype.Repository;
 import pl.comarch.camp.it.book.store.dao.IBookDAO;
 import pl.comarch.camp.it.book.store.dao.IUserDAO;
 import pl.comarch.camp.it.book.store.model.Book;
-import pl.comarch.camp.it.book.store.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class BookDAO implements IBookDAO {
 
     private final Connection connection;
@@ -104,7 +101,7 @@ public class BookDAO implements IBookDAO {
             preparedStatement.setString(1, book.getTitle());
             preparedStatement.setString(2, book.getAuthor());
             preparedStatement.setString(3, book.getIsbn());
-            preparedStatement.setDouble(4, book.getPrice());
+            preparedStatement.setDouble(4, book.getPrice().doubleValue());
             preparedStatement.setInt(5, book.getQuantity());
             preparedStatement.setInt(6, book.getCreator().getId());
 
@@ -126,7 +123,7 @@ public class BookDAO implements IBookDAO {
             preparedStatement.setString(1, book.getTitle());
             preparedStatement.setString(2, book.getAuthor());
             preparedStatement.setString(3, book.getIsbn());
-            preparedStatement.setDouble(4, book.getPrice());
+            preparedStatement.setDouble(4, book.getPrice().doubleValue());
             preparedStatement.setInt(5, book.getQuantity());
             preparedStatement.setInt(6, book.getCreator().getId());
             preparedStatement.setInt(7, book.getId());

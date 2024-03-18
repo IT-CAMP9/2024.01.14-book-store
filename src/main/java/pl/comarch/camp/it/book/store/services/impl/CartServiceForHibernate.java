@@ -14,8 +14,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class CartService implements ICartService {
-
+@Service
+public class CartServiceForHibernate implements ICartService {
     @Autowired
     HttpSession httpSession;
 
@@ -23,7 +23,7 @@ public class CartService implements ICartService {
 
     private IUserDAO userDAO;
 
-    public CartService(IBookDAO bookDAO, IUserDAO userDAO) {
+    public CartServiceForHibernate(IBookDAO bookDAO, IUserDAO userDAO) {
         this.bookDAO = bookDAO;
         this.userDAO = userDAO;
     }
@@ -48,7 +48,6 @@ public class CartService implements ICartService {
                             newPosition.setQuantity(1);
                             user.getCart().add(newPosition);
                         });
-        this.userDAO.update(user);
     }
 
     @Override

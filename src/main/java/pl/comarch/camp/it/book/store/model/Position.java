@@ -1,5 +1,6 @@
 package pl.comarch.camp.it.book.store.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity(name = "tposition")
 public class Position implements Cloneable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @ManyToOne(fetch = FetchType.EAGER)
     private Book book;
     private int quantity;
 

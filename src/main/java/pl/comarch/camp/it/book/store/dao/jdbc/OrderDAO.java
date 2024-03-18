@@ -1,19 +1,16 @@
 package pl.comarch.camp.it.book.store.dao.jdbc;
 
-import org.springframework.stereotype.Repository;
 import pl.comarch.camp.it.book.store.dao.IOrderDAO;
 import pl.comarch.camp.it.book.store.dao.IPositionDAO;
 import pl.comarch.camp.it.book.store.dao.IUserDAO;
 import pl.comarch.camp.it.book.store.model.Order;
 import pl.comarch.camp.it.book.store.model.Position;
-import pl.comarch.camp.it.book.store.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class OrderDAO implements IOrderDAO {
 
     private final Connection connection;
