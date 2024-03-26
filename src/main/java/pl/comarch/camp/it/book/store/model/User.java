@@ -27,7 +27,7 @@ public class User implements Cloneable {
     private Role role;
     @Transient
     private final Set<Position> cart = new HashSet<>();
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Order> orders = new HashSet<>();
 
     public User(int id, String login, String password, String name, String surname, Role role) {

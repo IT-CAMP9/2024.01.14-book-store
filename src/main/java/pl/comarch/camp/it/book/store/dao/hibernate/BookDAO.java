@@ -74,7 +74,8 @@ public class BookDAO implements IBookDAO {
         Session session = this.sessionFactory.openSession();
         try {
             session.beginTransaction();
-            session.merge(book);
+            Book newBook = session.merge(book);
+            book.setId(newBook.getId());
             session.getTransaction().commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
