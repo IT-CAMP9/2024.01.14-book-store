@@ -9,6 +9,7 @@ import pl.comarch.camp.it.book.store.dao.IUserDAO;
 import pl.comarch.camp.it.book.store.exceptions.InvalidCartException;
 import pl.comarch.camp.it.book.store.model.Book;
 import pl.comarch.camp.it.book.store.model.Order;
+import pl.comarch.camp.it.book.store.model.Position;
 import pl.comarch.camp.it.book.store.model.User;
 import pl.comarch.camp.it.book.store.services.IOrderService;
 
@@ -37,16 +38,17 @@ public class OrderService implements IOrderService {
     @Override
     public void confirm() {
         final User user = (User) this.httpSession.getAttribute("user");
-        long incorrectBooks = user.getCart().stream()
+        List<Position> incorrectPositions = user.getCart().stream()
                 .filter(position -> {
                     Optional<Book> bookFromDbBox =
                             this.bookDAO.getById(position.getBook().getId());
                     return bookFromDbBox.isEmpty() ||
                             bookFromDbBox.get().getQuantity() < position.getQuantity();
                 })
-                .peek(position -> user.getCart().remove(position))
-                .count();
-        if(incorrectBooks > 0) {
+                .toList();
+        incorrectPositions.forEach(user.getCart()::remove);
+
+        if(incorrectPositions.size() > 0) {
             throw new InvalidCartException();
         }
 
@@ -73,5 +75,10 @@ public class OrderService implements IOrderService {
     public List<Order> getCurrentUserOrders() {
         User user = (User) this.httpSession.getAttribute("user");
         return this.orderDAO.getByUserId(user.getId());
+    }
+
+    @Override
+    public Optional<Order> getById(int id) {
+        return this.orderDAO.getById(id);
     }
 }

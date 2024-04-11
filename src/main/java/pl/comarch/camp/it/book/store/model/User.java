@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 @ToString
 @Builder
+@EqualsAndHashCode
 @Entity(name = "tuser")
 public class User implements Cloneable {
     @Id

@@ -19,7 +19,7 @@ public class UserDTO {
     private String name;
     private String surname;
     private User.Role role;
-    private Set<OrderDTO> orders = new HashSet<>();
+    private Set<String> orders = new HashSet<>();
 
     public UserDTO(User user) {
         this.id = user.getId();
@@ -27,18 +27,8 @@ public class UserDTO {
         this.name = user.getName();
         this.surname = user.getSurname();
         this.role = user.getRole();
-        this.orders.addAll(user.getOrders().stream().map(OrderDTO::new).toList());
-    }
-
-    public User toUser(IUserDAO userDAO, IBookDAO bookDAO) {
-        User user = new User();
-        user.setId(this.id);
-        user.setLogin(this.login);
-        user.setName(this.name);
-        user.setSurname(this.surname);
-        user.setRole(this.role);
-        user.getOrders().addAll(this.orders.stream()
-                .map(orderDTO -> orderDTO.toOrder(userDAO, bookDAO)).toList());
-        return user;
+        this.orders.addAll(user.getOrders().stream()
+                .map(order -> "http://localhost:8080/api/v1/order/" + order.getId())
+                .toList());
     }
 }

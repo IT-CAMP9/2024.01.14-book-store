@@ -12,20 +12,12 @@ import pl.comarch.camp.it.book.store.model.Position;
 @ToString
 public class PositionDTO {
     private int id;
-    private int bookId;
+    private String book;
     private int quantity;
 
     public PositionDTO(Position position) {
         this.id = position.getId();
-        this.bookId = position.getBook().getId();
+        this.book = "http://localhost:8080/api/v1/book/" + position.getBook().getId();
         this.quantity = position.getQuantity();
-    }
-
-    public Position toPosition(IBookDAO bookDAO) {
-        Position position = new Position();
-        position.setId(this.id);
-        position.setBook(bookDAO.getById(this.bookId).orElseThrow(BookNotExistException::new));
-        position.setQuantity(this.quantity);
-        return position;
     }
 }

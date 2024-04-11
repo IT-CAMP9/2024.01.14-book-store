@@ -44,20 +44,14 @@ public class Book implements Cloneable {
 
     @Override
     public Book clone() {
-        /*try {
-            Book clone = (Book) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }*/
         Book book = new Book();
         book.setId(this.id);
         book.setTitle(this.title);
         book.setAuthor(this.author);
         book.setIsbn(this.isbn);
-        //book.setPrice(this.price);
         book.price = this.price;
         book.setQuantity(this.quantity);
+        book.creator = this.creator;
 
         return book;
     }

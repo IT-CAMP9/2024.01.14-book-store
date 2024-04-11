@@ -4,15 +4,13 @@ import lombok.*;
 import pl.comarch.camp.it.book.store.dao.IUserDAO;
 import pl.comarch.camp.it.book.store.exceptions.UserNotExistException;
 import pl.comarch.camp.it.book.store.model.Book;
-import pl.comarch.camp.it.book.store.model.User;
-
-import java.util.Optional;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class BookDTO {
     private int id;
     private String title;

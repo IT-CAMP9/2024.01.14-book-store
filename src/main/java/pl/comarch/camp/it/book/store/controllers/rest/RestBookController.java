@@ -1,5 +1,6 @@
 package pl.comarch.camp.it.book.store.controllers.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class RestBookController {
         this.bookService = bookService;
     }
 
+    @Operation(description = "jakis fajny endpoint do zapisywania ksiazki", summary = "saveBook")
     @RequestMapping(path = "", method = RequestMethod.POST)
     public ResponseEntity<BookDTO> save(@RequestBody BookDTO book) {
         try {
